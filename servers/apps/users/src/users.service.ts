@@ -1,3 +1,4 @@
+import { User } from './entities/user.entity';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService, TokenExpiredError } from '@nestjs/jwt';
@@ -154,6 +155,25 @@ export class UsersService {
     hashedPassword: string,
   ): Promise<boolean> {
     return await bcrypt.compare(password, hashedPassword);
+  }
+
+  //get LoggedIn User
+  async getLoggedInUSer(req: any) {
+    const user = req.user;
+    const accessToken = req.accesstoken;
+    const refreshToken = req.refreshtoken;
+
+    return { user, accessToken, refreshToken };
+  }
+
+  //get LoggedOut User
+  async Logout(req: any) {
+    req.user = null;
+    req.accesstoken = null;
+    req.refreshtoken = null;
+
+    return { message: 'Logged out successfully!' };
+    
   }
 
   //Get all users Service
