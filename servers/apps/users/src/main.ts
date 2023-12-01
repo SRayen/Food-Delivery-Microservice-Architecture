@@ -12,6 +12,10 @@ async function bootstrap() {
 
   app.setViewEngine('ejs'); //specify the template engine that will be used to render views
 
+  app.enableCors({
+    origin: '*',
+  });
+
   await app.listen(4001);
 }
 bootstrap();

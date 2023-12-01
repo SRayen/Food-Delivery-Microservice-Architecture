@@ -1,3 +1,5 @@
+"use client";
+
 import styles from "@/src/utils/style";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useState } from "react";
@@ -9,6 +11,9 @@ import {
   AiOutlineEyeInvisible,
 } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
+import { useMutation } from "@apollo/client";
+import { REGISTER_USER } from "@/src/graphql/actions/register.actions";
+import toast from "react-hot-toast";
 
 const formSchema = z.object({
   name: z.string().min(8, "Name must be at least 3 characters long!"),
@@ -26,6 +31,9 @@ const Signup = ({
 }: {
   setActiveState: (e: string) => void;
 }) => {
+  const [registerUserMutation, { loading}] =
+    useMutation(REGISTER_USER);
+
   const {
     register,
     handleSubmit,
@@ -35,10 +43,18 @@ const Signup = ({
 
   const [show, setShow] = useState(false);
 
-  const onSubmit = (data: SignUpSchema) => {
-    console.log(data);
-    reset();
+  const onSubmit = async (signup_data: SignUpSchema) => {
+    try {
+      const response = await registerUserMutation({ variables: signup_data });
+      localStorage.setItem('activation_token',response.data.register.activation_token)
+      console.log(response.data);
+      toast.success("Please check your email to activate your account");
+      reset()
+    } catch (error: any) {
+      toast.error(error.message);
+    }
   };
+
   return (
     <div>
       <h1 className={`${styles.title}`}>SignUp with SRayen</h1>
@@ -67,7 +83,7 @@ const Signup = ({
         <div className="w-full relative mt-3">
           <label className={`${styles.label}`}>Enter your Phone Number</label>
           <input
-            {...register("phone_number")}
+            {...register("phone_number", { valueAsNumber: true })}
             type="number"
             placeholder="+216********"
             className={`${styles.input}`}
@@ -106,8 +122,8 @@ const Signup = ({
         <div className="w-full mt-2">
           <input
             type="submit"
-            value="SignUp"
-            disabled={isSubmitting}
+            value="Sign Up"
+            disabled={isSubmitting || loading}
             className={`${styles.input} mt-2`}
           />
         </div>
