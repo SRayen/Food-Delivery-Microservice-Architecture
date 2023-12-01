@@ -9,9 +9,11 @@ import {
 import { Avatar } from "@nextui-org/avatar";
 import { useState } from "react";
 import { CgProfile } from "react-icons/cg";
+import AuthScreen from "../screens/AuthScreen";
 
 const ProfileDropDown = () => {
   const [signedIn, setSignedIn] = useState(false);
+  const [open, setOpen] = useState(false);
   return (
     <div className="flex items-center gap-4">
       {signedIn ? (
@@ -40,8 +42,13 @@ const ProfileDropDown = () => {
           </DropdownMenu>
         </Dropdown>
       ) : (
-        <CgProfile className="text-2xl cursor-pointer" />
+        <CgProfile
+          className="text-2xl cursor-pointer"
+          onClick={() => setOpen(!open)}
+        />
       )}
+
+      {open && <AuthScreen />}
     </div>
   );
 };
