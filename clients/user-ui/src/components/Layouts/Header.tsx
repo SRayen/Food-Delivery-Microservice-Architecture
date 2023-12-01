@@ -5,7 +5,7 @@ import ProfileDropDown from "../ProfileDropDown";
 const Header = () => {
   return (
     <header className="w-full  bg-[#0F1524] ">
-      <div className="w-[90%] h-[80px] m-auto flex items-center justify-between">
+      <div className="w-[90%] h-[65px] m-auto flex items-center justify-between">
         <h1 className={`${styles.logo}`}>SRayen</h1>
         <NavItems />
         <ProfileDropDown/>
