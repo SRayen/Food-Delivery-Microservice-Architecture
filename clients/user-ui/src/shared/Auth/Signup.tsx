@@ -12,7 +12,7 @@ import {
 } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
 import { useMutation } from "@apollo/client";
-import { REGISTER_USER } from "@/src/graphql/actions/register.actions";
+import { REGISTER_USER } from "@/src/graphql/actions/register.action";
 import toast from "react-hot-toast";
 
 const formSchema = z.object({
@@ -31,8 +31,7 @@ const Signup = ({
 }: {
   setActiveState: (e: string) => void;
 }) => {
-  const [registerUserMutation, { loading}] =
-    useMutation(REGISTER_USER);
+  const [registerUserMutation, { loading }] = useMutation(REGISTER_USER);
 
   const {
     register,
@@ -46,10 +45,14 @@ const Signup = ({
   const onSubmit = async (signup_data: SignUpSchema) => {
     try {
       const response = await registerUserMutation({ variables: signup_data });
-      localStorage.setItem('activation_token',response.data.register.activation_token)
+      localStorage.setItem(
+        "activation_token",
+        response.data.register.activation_token
+      );
       console.log(response.data);
       toast.success("Please check your email to activate your account");
-      reset()
+      reset();
+      setActiveState("Verification");
     } catch (error: any) {
       toast.error(error.message);
     }
