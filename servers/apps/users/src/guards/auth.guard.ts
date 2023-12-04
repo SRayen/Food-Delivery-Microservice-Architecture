@@ -1,3 +1,4 @@
+import { User } from './../entities/user.entity';
 import {
   CanActivate,
   ExecutionContext,
@@ -17,6 +18,15 @@ export class AuthGuard implements CanActivate {
     private readonly config: ConfigService,
   ) {}
 
+  searchUser = async (id: any): Promise<User> => {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id,
+      },
+    });
+    return user;
+  };
+
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const gqlContext = GqlExecutionContext.create(context);
     const { req } = gqlContext.getContext();
@@ -28,13 +38,30 @@ export class AuthGuard implements CanActivate {
       throw new UnauthorizedException('Please login to access this resource!');
     }
 
-    if (accessToken) {
-      const decoded = this.jwtService.decode(accessToken);
+    try {
+      const decoded = this.jwtService.verify(accessToken, {
+        secret: this.config.get<string>('ACCESS_TOKEN_SECRET'),
+      });
+      const user = await this.searchUser(decoded.id);
 
-      const expirationTime = decoded?.exp;
+      req.accesstoken = accessToken;
+      req.refreshtoken = refreshToken;
+      req.user = user;
+    } catch (error) {
+      if (!refreshToken) {
+        throw new UnauthorizedException(
+          'Access Denied. No refresh token provided.',
+        );
+      }
 
-      if (expirationTime < Date.now()) {
+      try {
+        const decoded = this.jwtService.verify(refreshToken, {
+          secret: this.config.get<string>('REFRESH_TOKEN_SECRET'),
+        });
+
         await this.updateAccessToken(req);
+      } catch (error) {
+        throw new UnauthorizedException('Invalid Token.');
       }
     }
 
@@ -55,17 +82,13 @@ export class AuthGuard implements CanActivate {
         );
       }
 
-      const user = await this.prisma.user.findUnique({
-        where: {
-          id: decoded.id,
-        },
-      });
+      const user = await this.searchUser(decoded.id);
 
       const accessToken = this.jwtService.sign(
         { id: user.id },
         {
           secret: this.config.get<string>('ACCESS_TOKEN_SECRET'),
-          expiresIn: '5m',
+          expiresIn: '1m',
         },
       );
 
@@ -73,7 +96,7 @@ export class AuthGuard implements CanActivate {
         { id: user.id },
         {
           secret: this.config.get<string>('REFRESH_TOKEN_SECRET'),
-          expiresIn: '7d',
+          expiresIn: '2d',
         },
       );
 

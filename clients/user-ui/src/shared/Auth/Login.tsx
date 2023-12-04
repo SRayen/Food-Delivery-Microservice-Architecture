@@ -1,6 +1,6 @@
 import styles from "@/src/utils/style";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import {
@@ -9,6 +9,10 @@ import {
   AiOutlineEyeInvisible,
 } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
+import { LOGIN_USER } from "@/src/graphql/actions/login.action";
+import { useMutation } from "@apollo/client";
+import toast from "react-hot-toast";
+import Cookies from "js-cookie";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -17,7 +21,14 @@ const formSchema = z.object({
 
 type LoginSchema = z.infer<typeof formSchema>;
 
-const Login = ({ setActiveState }: { setActiveState: (e: string) => void }) => {
+const Login = ({
+  setActiveState,
+  setOpen,
+}: {
+  setActiveState: (e: string) => void;
+  setOpen: (e: boolean) => void;
+}) => {
+  const [Login, { loading }] = useMutation(LOGIN_USER);
   const {
     register,
     handleSubmit,
@@ -27,9 +38,24 @@ const Login = ({ setActiveState }: { setActiveState: (e: string) => void }) => {
 
   const [show, setShow] = useState(false);
 
-  const onSubmit = (data: LoginSchema) => {
-    console.log(data);
-    reset();
+  const onSubmit = async (data: LoginSchema) => {
+    try {
+      const response = await Login({ variables: data });
+      console.log("response===>", response);
+      if (response.data.Login.user) {
+        toast.success("Login Successful!");
+        Cookies.set("refresh_token", response.data.Login.refreshToken);
+        Cookies.set("access_token", response.data.Login.accessToken);
+        console.log("ahla w sahla 1");
+        setOpen(false);
+        reset();
+        window.location.reload();
+      } else {
+        toast.error(response.data.Login.error.message);
+      }
+    } catch (error: any) {
+      toast.error(error.message);
+    }
   };
 
   return (
@@ -84,7 +110,7 @@ const Login = ({ setActiveState }: { setActiveState: (e: string) => void }) => {
           <input
             type="submit"
             value="Login"
-            disabled={isSubmitting}
+            disabled={isSubmitting || loading}
             className={`${styles.input} mt-3`}
           />
         </div>
