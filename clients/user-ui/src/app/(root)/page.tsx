@@ -1,12 +1,11 @@
-import HomeScreen from '@/src/screens/HomeScreen'
-import React from 'react'
+import HomeScreen from "@/src/screens/HomeScreen";
 
 const page = () => {
   return (
     <div>
-      <HomeScreen/>
+      <HomeScreen />
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default page;

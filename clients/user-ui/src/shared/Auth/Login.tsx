@@ -103,9 +103,10 @@ const Login = ({
         )}
         <div className="w-full mt-5">
           <span
-            className={`${styles.label} text-[#2190ff] block text-right cursor-pointer`}
+            className={`${styles.label} block text-right cursor-pointer`}
+            onClick={() => setActiveState("Forgot-Password")}
           >
-            Forgot your password
+            <h1 className="hover:text-red-500 text-lg">Forgot your password</h1>
           </span>
           <input
             type="submit"
