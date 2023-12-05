@@ -5,7 +5,7 @@
 :root {
   --foreground-rgb: 255, 255, 255;
   --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --background-end-rgb: 0, 0, 0;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -26,7 +26,6 @@ body {
     rgb(var(--background-start-rgb));
 }
 
-/* To hide increase decrease options in number inputs: */
 /* Firefox */
 input[type="number"] {
   -moz-appearance: textfield;
@@ -38,7 +37,6 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-/* Animation (for code verification) */
 @keyframes shake {
   0% {
     transform: translateX(0);
@@ -58,6 +56,26 @@ input::-webkit-inner-spin-button {
   100% {
     transform: translateX(0);
   }
+}
+
+.banner {
+  background-image: url("https://framerusercontent.com/images/ox1tg69dwg5TMb6flK8EvAlTY.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.backdrop_shaders {
+  background: radial-gradient(
+    50% 50% at 50% 50%,
+    #180f34 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  flex: none;
+  inset: -273px 290px 51px -557px;
+  overflow: hidden;
+  position: absolute;
+  top: 90px;
+  z-index: -1;
 }
 
 .shake {

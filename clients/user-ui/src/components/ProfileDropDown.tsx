@@ -15,11 +15,9 @@ import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 
 const ProfileDropDown = () => {
-
   const [signedIn, setSignedIn] = useState(false);
   const [open, setOpen] = useState(false);
   const { user, loading, accessToken, refreshToken } = useUser();
-  console.log("user===>", user);
 
   useEffect(() => {
     if (!loading) {

@@ -19,3 +19,17 @@ export const LOGIN_USER: DocumentNode = gql`
     }
   }
 `;
+
+/*
+GraphQL Syntax:
+mutation{
+    Login(email:"user@gmail.com",password:"123456")
+  {user
+   		 {name,
+      email,phone_number}
+    accessToken,
+    refreshToken,
+    error{message}
+  }
+}
+*/

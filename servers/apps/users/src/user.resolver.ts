@@ -63,7 +63,7 @@ export class UsersResolver {
     return await this.userService.getLoggedInUser(context.req);
   }
 
-  @Query(() => ForgotPasswordResponse)
+  @Mutation(() => ForgotPasswordResponse)
   //RQ:Not Protected
   async forgotPassword(
     @Args('forgotPasswordDto') forgotPasswordDto: ForgotPasswordDto,
@@ -71,7 +71,7 @@ export class UsersResolver {
     return await this.userService.forgotPassword(forgotPasswordDto);
   }
 
-  @Query(() => ResetPasswordResponse)
+  @Mutation(() => ResetPasswordResponse)
   //RQ:Not Protected
   async resetPassword(
     @Args('resetPasswordDto') resetPasswordDto: ResetPasswordDto,
