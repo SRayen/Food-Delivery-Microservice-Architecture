@@ -1,6 +1,6 @@
 import styles from "@/src/utils/style";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import {

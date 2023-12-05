@@ -10,7 +10,7 @@ export const REGISTER_USER: DocumentNode = gql`
   ) {
     register(
       registerDto: {
-        name:$name
+        name: $name
         email: $email
         password: $password
         phone_number: $phone_number
@@ -20,3 +20,16 @@ export const REGISTER_USER: DocumentNode = gql`
     }
   }
 `;
+
+/*
+GraphQL Syntax:
+mutation{register(registerDto:
+  {name:"user",
+    email:"user@gmail.com",
+    password:"123456",
+    phone_number:22222222})
+		{
+      activation_token
+    }
+}
+*/

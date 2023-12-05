@@ -16,3 +16,20 @@ export const GET_USER: DocumentNode = gql`
     }
   }
 `;
+
+/*
+GraphQL Syntax:
+query{
+  getLoggedInUser{
+    user{
+      id
+  		name
+  		email
+  		address
+    	password
+  }
+		accessToken
+    refreshToken
+  }
+}
+*/
