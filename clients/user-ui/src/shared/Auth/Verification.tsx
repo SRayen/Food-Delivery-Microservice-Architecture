@@ -4,6 +4,7 @@ import { useMutation } from "@apollo/client";
 import { FC, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { VscWorkspaceTrusted } from "react-icons/vsc";
+import { Spinner } from "@nextui-org/react";
 
 type Props = {
   setActiveState: (route: string) => void;
@@ -75,6 +76,7 @@ const Verification: FC<Props> = ({ setActiveState }) => {
   return (
     <div>
       <h1 className={`${styles.title}`}>Verify Your Account</h1>
+      {loading && <Spinner size="lg" className="flex" />}
       <br />
       <div className="w-full flex items-center justify-center mt-2">
         <div className="w-[80px] h-[80px] rounded-full bg-[#497DF2] flex items-center justify-center">

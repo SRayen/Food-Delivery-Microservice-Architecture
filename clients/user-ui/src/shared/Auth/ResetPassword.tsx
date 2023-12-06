@@ -10,6 +10,7 @@ import { useMutation } from "@apollo/client";
 import { RESET_PASSWORD } from "@/src/graphql/actions/reset-password.action";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { Spinner } from "@nextui-org/react";
 
 const formSchema = z
   .object({
@@ -66,6 +67,7 @@ const ResetPassword = ({
     <div className="w-full flex justify-center items-center h-screen">
       <div className="md:w-[500px] w-full mx-2">
         <h1 className={`${styles.title}`}>Reset Your password</h1>
+        {loading && <Spinner size="lg" className="flex" />}
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="w-full mt-5 relative mb-1">
             <label htmlFor="password" className={`${styles.label}`}>

@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
+import { Spinner } from "@nextui-org/react";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -44,6 +45,7 @@ const ForgotPassword = ({
   return (
     <div>
       <h1 className={`${styles.title}`}>Forgot your password ?</h1>
+      {loading && <Spinner size="lg" className="flex" />}
       <form onSubmit={handleSubmit(onSubmit)}>
         <label className={`${styles.label}`}>Enter your Email</label>
         <input

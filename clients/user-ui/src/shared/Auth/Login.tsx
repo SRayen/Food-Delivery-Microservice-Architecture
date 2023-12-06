@@ -13,7 +13,8 @@ import { LOGIN_USER } from "@/src/graphql/actions/login.action";
 import { useMutation } from "@apollo/client";
 import toast from "react-hot-toast";
 import Cookies from "js-cookie";
-import { signIn } from "next-auth/react"
+import { signIn } from "next-auth/react";
+import { Spinner } from "@nextui-org/react";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -63,6 +64,7 @@ const Login = ({
   return (
     <div>
       <h1 className={`${styles.title}`}>Login with SRayen</h1>
+      {loading && <Spinner size="lg" className="flex" />}
       <form onSubmit={handleSubmit(onSubmit)}>
         <label className={`${styles.label}`}>Enter your Email</label>
         <input
