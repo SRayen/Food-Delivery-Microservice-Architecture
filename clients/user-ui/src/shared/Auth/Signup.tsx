@@ -14,7 +14,8 @@ import { FcGoogle } from "react-icons/fc";
 import { useMutation } from "@apollo/client";
 import { REGISTER_USER } from "@/src/graphql/actions/register.action";
 import toast from "react-hot-toast";
-import { signIn } from "next-auth/react"
+import { signIn } from "next-auth/react";
+import { Spinner } from "@nextui-org/react";
 
 const formSchema = z.object({
   name: z.string().min(8, "Name must be at least 3 characters long!"),
@@ -62,6 +63,7 @@ const Signup = ({
   return (
     <div>
       <h1 className={`${styles.title}`}>SignUp with SRayen</h1>
+      {loading && <Spinner size="lg" className="flex" />}
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="w-full relative mb-3">
           <label className={`${styles.label}`}>Enter your Name</label>
