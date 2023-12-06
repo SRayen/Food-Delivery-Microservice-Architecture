@@ -9,6 +9,7 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { useMutation } from "@apollo/client";
 import { RESET_PASSWORD } from "@/src/graphql/actions/reset-password.action";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const formSchema = z
   .object({
@@ -44,6 +45,8 @@ const ResetPassword = ({
   const [show, setShow] = useState(false);
   const [confirmPasswordShow, setConfirmPasswordShow] = useState(false);
 
+  const router = useRouter();
+
   const onSubmit = async (data: ResetPasswordSchema) => {
     try {
       const response = await resetPassword({
@@ -53,6 +56,7 @@ const ResetPassword = ({
         },
       });
       toast.success("Password updated successfully!");
+      router.push(process.env.NEXT_PUBLIC_CLIENT_SIDE_URI as string);
     } catch (error: any) {
       toast.error(error.message);
     }
@@ -125,7 +129,7 @@ const ResetPassword = ({
             type="submit"
             value="Submit"
             disabled={isSubmitting || loading}
-            className={`${styles.input} mt-3`}
+            className={`${styles.input} mt-3 cursor-pointer`}
           />
         </form>
       </div>

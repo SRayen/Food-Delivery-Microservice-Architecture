@@ -14,6 +14,7 @@ import { FcGoogle } from "react-icons/fc";
 import { useMutation } from "@apollo/client";
 import { REGISTER_USER } from "@/src/graphql/actions/register.action";
 import toast from "react-hot-toast";
+import { signIn } from "next-auth/react"
 
 const formSchema = z.object({
   name: z.string().min(8, "Name must be at least 3 characters long!"),
@@ -134,9 +135,11 @@ const Signup = ({
         <h5 className="text-center pt-1 font-Poppins text-[16px] text-white">
           Or join with
         </h5>
-        <div className="flex items-center justify-center my-3">
+        <div
+          className="flex items-center justify-center my-3"
+          onClick={() => signIn()}
+        >
           <FcGoogle size={30} className="cursor-pointer mr-2" />
-          <AiFillGithub size={30} className="cursor-pointer ml-2" />
         </div>
         <h5 className="text-center pt-2 font-Poppins text-[14px]">
           Already have any account
