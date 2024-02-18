@@ -49,7 +49,7 @@ const Login = ({
         toast.success("Login Successful!");
         Cookies.set("refresh_token", response.data.Login.refreshToken);
         Cookies.set("access_token", response.data.Login.accessToken);
-        console.log("ahla w sahla 1");
+
         setOpen(false);
         reset();
         window.location.reload();
